@@ -1,0 +1,97 @@
+{% extends 'admin/admin.html' %}
+{% load static %}
+{% block background %}book{% endblock background %}
+{% block header_title %}Libros{% endblock header_title %}
+{% block content_title %}
+Listado de Libros
+{% endblock content_title %}
+{% block content %}
+<form class="search">
+  <input name="search" class="search__input" value="{{ request.GET.search }}" type="search"
+    placeholder="Encuentra un libro por su título ...">
+  <button class="search__input-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+      <path
+        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+    </svg>
+  </button>
+</form>
+<button class="main__primary-button" id="createBook">Registrar libro</button>
+{% if info %}
+<table class="table">
+  <thead class="table__header">
+    <tr class="table__header-row">
+      <th class="table__cell table__cell--head">Libro</th>
+      <th class="table__cell table__cell--head"></th>
+    </tr>
+  </thead>
+  <tbody class="table__body">
+    {% for book in info %}
+    <tr class="table__body-row">
+      <td class="table__cell table__cell--body table__cell--radius-left">{{ book.title }}</td>
+      <td class="table__cell table__cell--body table__cell--radius-right table__cell--align-right">
+        <button class="main__button edit__button" data-id="{{ book.id }}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path
+              d="M5 0h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2 2 2 0 0 1-2 2H3a2 2 0 0 1-2-2h1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1H1a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v9a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1H3a2 2 0 0 1 2-2z" />
+            <path
+              d="M1 6v-.5a.5.5 0 0 1 1 0V6h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V9h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 2.5v.5H.5a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1H2v-.5a.5.5 0 0 0-1 0z" />
+          </svg>
+        </button>
+        <button class="main__button delete__button" data-id="{{ book.id }}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path
+              d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+            <path fill-rule="evenodd"
+              d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+          </svg>
+        </button>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<div class="main__paginator">
+  {% if info.has_previous %}
+  <button class="main__button menu__link"
+    data-href="?page={{ info.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+      <path
+        d="M16 14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12zm-4.5-6.5H5.707l2.147-2.146a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L5.707 8.5H11.5a.5.5 0 0 0 0-1z" />
+    </svg>
+  </button>
+  {% else %}
+  <div style="width: 20px; margin: 0px 5px;"></div>
+  {% endif %}
+  <span class="main__paginator-detail">
+    <p class="main__paginator-number">
+      {% if request.GET.page %}{{ request.GET.page }}{% else %}1{% endif %}
+    </p>
+  </span>
+  {% if info.has_next %}
+  <button class="main__button menu__link"
+    data-href="?page={{ info.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+      <path
+        d="M0 14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v12zm4.5-6.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5a.5.5 0 0 1 0-1z" />
+    </svg>
+  </button>
+  {% else %}
+  <div style="width: 20px; margin: 0px 5px;"></div>
+  {% endif %}
+</div>
+{% else %}
+{% if request.GET.search %}
+<div class="main__information">
+  Lo sentimos, no hemos encontrado lo que buscas ...
+</div>
+{% else %}
+<div class="main__information">
+  Todavía no tenemos registros, crea el primero ...
+</div>
+{% endif %}
+{% endif %}
+{% endblock content %}
+{% block external_scripts %}
+<script type="text/javascript" src="{% static 'js/library/book.js' %}"></script>
+{% endblock external_scripts %}

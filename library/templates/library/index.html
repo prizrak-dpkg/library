@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="{% static 'assets/public/favicon.ico' %}" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="Crab" />
+  <link rel="apple-touch-icon" href="{% static 'assets/public/logo192.png' %}" />
+  <link rel="manifest" href="{% static 'assets/public/manifest.json' %}" />
+  <title>Biblioteca ADSI</title>
+  {% block resources %}
+  <link type="text/css" rel="stylesheet" href="{% static 'css/library/index.css' %}" />
+  {% endblock resources %}
+  {% block external_resources %}
+  {% endblock external_resources %}
+</head>
+
+<body>
+  {% block sidebar %}
+  <nav class="header">
+    <a class="header__brand" href="{% url 'library:admin' %}">ADSI</a>
+    <ul class="header__navbar">
+      <a class="header__navbar-link" href="{% url 'library:admin' %}">
+        <li class="header__navbar-item">Inicio</li>
+      </a>
+      <a class="header__navbar-link" href="{% url 'library:category' %}">
+        <li class="header__navbar-item">Categorías</li>
+      </a>
+      <a class="header__navbar-link" href="{% url 'library:book' %}">
+        <li class="header__navbar-item">Libros</li>
+      </a>
+      <a class="header__navbar-link" href="{% url 'library:bookloan' %}">
+        <li class="header__navbar-item">Préstamos</li>
+      </a>
+      <a class="header__navbar-link" href="{% url 'library:debt' %}">
+        <li class="header__navbar-item">Sanciones</li>
+      </a>
+      <a class="header__navbar-link" href="{% url 'library:user' %}">
+        <li class="header__navbar-item">Usuarios</li>
+      </a>
+    </ul>
+  </nav>
+  {% endblock sidebar %}
+  {% block root %}
+  {% endblock root %}
+  {% block scripts %}
+  <script type="text/javascript" src="{% static 'js/library/index.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/library/helpers.js' %}"></script>
+  {% endblock scripts %}
+  {% block external_scripts %}
+  {% endblock external_scripts %}
+  {% csrf_token %}
+</body>
+
+</html>
